@@ -19,6 +19,8 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity implements LocationListener {
     private TextView textView;
     private LocationManager locationManager;
+    private double longtitude;
+    private double latitude;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -33,6 +35,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 case R.id.navigation_dashboard:
                     Intent mesg = new Intent();
                     mesg.setClass(MainActivity.this,MapsActivity.class);
+                    mesg.putExtra("longtitude", Double.toString(longtitude));
+                    mesg.putExtra("latitude",Double.toString(latitude));
+
+
 
                     if (mesg.resolveActivity(getPackageManager()) != null) {
                         startActivity(mesg);
@@ -58,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        Log.e("pause","pause");
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -79,8 +85,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     @Override
     public void onLocationChanged(Location location) {
-        double longtitude = location.getLongitude();
-        double latitude = location.getLatitude();
+        longtitude = location.getLongitude();
+        latitude = location.getLatitude();
         textView.setText("Longitude: " + longtitude + "\n" + "Latitude: " + latitude);
     }
 
