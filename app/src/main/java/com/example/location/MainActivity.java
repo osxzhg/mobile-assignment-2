@@ -79,7 +79,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             return;
         }
         Location location = locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER);
-
         onLocationChanged(location);
     }
 
