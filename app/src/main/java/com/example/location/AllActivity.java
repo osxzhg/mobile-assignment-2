@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class AllActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -32,6 +34,7 @@ public class AllActivity extends FragmentActivity implements OnMapReadyCallback 
             System.out.println(ss);
         }*/
         Log.e("my", arr[0]);
+
 
     }
 
@@ -58,6 +61,16 @@ public class AllActivity extends FragmentActivity implements OnMapReadyCallback 
             mMap.addMarker(new MarkerOptions().position(location_c).title(arr[i*3]));
         }
         mMap.moveCamera(CameraUpdateFactory.newLatLng(location_c));
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                Toast.makeText(AllActivity.this,"标记被点击了，这里的纬度是:"+marker.getPosition().latitude+"",Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+
+
     }
 
 

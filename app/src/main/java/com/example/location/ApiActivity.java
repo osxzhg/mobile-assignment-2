@@ -97,12 +97,17 @@ public class ApiActivity extends AppCompatActivity {
                         JSONObject currentSchool = schoolArray.getJSONObject(i);
                         String org_type = currentSchool.getString("Org_Type");
                         //output.append(org_type);
+                        /*
                         if(Objects.equals(org_type,"Free Kindergarten")) {
                             String latitude = currentSchool.getString("Latitude");
                             String longitude = currentSchool.getString("Longitude");
                             String orgName = currentSchool.getString("Org_Name");
                             output.append(orgName + "," + latitude + "," + longitude + ",");
-                        }
+                        }*/
+                        String latitude = currentSchool.getString("Latitude");
+                        String longitude = currentSchool.getString("Longitude");
+                        String orgName = currentSchool.getString("Org_Name");
+                        output.append(orgName + "," + latitude + "," + longitude + ",");
                     }
                     mTextMessage.setText(output.toString());
                 }   catch (JSONException e) {
