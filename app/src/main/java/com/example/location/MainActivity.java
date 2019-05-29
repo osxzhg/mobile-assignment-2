@@ -33,6 +33,17 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
                     return true;
                 case R.id.navigation_dashboard:
+                    Intent api = new Intent();
+                    api.setClass(MainActivity.this,ApiActivity.class);
+                    api.putExtra("longtitude", Double.toString(longtitude));
+                    api.putExtra("latitude",Double.toString(latitude));
+
+                    if (api.resolveActivity(getPackageManager()) != null) {
+                        startActivity(api);
+                    }
+
+                    return true;
+                case R.id.navigation_map:
                     Intent mesg = new Intent();
                     mesg.setClass(MainActivity.this,MapsActivity.class);
                     mesg.putExtra("longtitude", Double.toString(longtitude));
@@ -43,9 +54,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                     if (mesg.resolveActivity(getPackageManager()) != null) {
                         startActivity(mesg);
                     }
-
-                    return true;
-                case R.id.navigation_map:
 
                     return true;
             }
