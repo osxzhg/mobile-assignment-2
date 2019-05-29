@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 import com.android.volley.Request;
@@ -21,10 +22,24 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Objects;
+
 public class ApiActivity extends AppCompatActivity {
     private TextView mTextMessage;
     private String longtitude_str;
     private String latitude_str;
+    private StringBuilder output = new StringBuilder();
+    public static final String PAYLOAD = "PAYLOAD";
+    public static final String RESULT = "RESULT";
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+
+        Log.e("test","onActivityResult");
+    }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -37,12 +52,11 @@ public class ApiActivity extends AppCompatActivity {
                 finish();
                 return true;
                 case R.id.navigation_map:
+
                 Intent mesg = new Intent();
-                mesg.setClass(ApiActivity.this,MapsActivity.class);
-                mesg.putExtra("longtitude", longtitude_str);
-                mesg.putExtra("latitude",latitude_str);
+                mesg.setClass(ApiActivity.this,AllActivity.class);
 
-
+                mesg.putExtra(PAYLOAD, output.toString());
 
                 if (mesg.resolveActivity(getPackageManager()) != null) {
                     startActivity(mesg);
@@ -61,7 +75,8 @@ public class ApiActivity extends AppCompatActivity {
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        String url ="https://catalogue.data.govt.nz/api/3/action/datastore_search?resource_id=26f44973-b06d-479d-b697-8d7943c97c57&limit=1";
+        String url ="https://catalogue.data.govt.nz/api/3/action/datastore_search?resource_id=26f44973-b06d-479d-b697-8d7943c97c57";
+        //String url ="https://catalogue.data.govt.nz/api/3/action/datastore_search?resource_id=26f44973-b06d-479d-b697-8d7943c97c57&limit=2";
 
         Bundle extras = getIntent().getExtras();
         longtitude_str =extras.getString("longtitude");
@@ -71,7 +86,7 @@ public class ApiActivity extends AppCompatActivity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                StringBuilder output = new StringBuilder();
+                //StringBuilder output = new StringBuilder();
                 try {
                     JSONObject result = response.getJSONObject("result");
 //                    String include = result.getString("include_total");
@@ -80,11 +95,14 @@ public class ApiActivity extends AppCompatActivity {
                     JSONArray schoolArray = result.getJSONArray("records");
                     for (int i = 0; i < schoolArray.length(); i++)  {
                         JSONObject currentSchool = schoolArray.getJSONObject(i);
-                        String latitude = currentSchool.getString("Latitude");
-                        String longitude = currentSchool.getString("Longitude");
-                        String orgName = currentSchool.getString("Org_Name");
-                        output.append(orgName + "," + latitude + "," + longitude + "," + '\n' + '\n');
-
+                        String org_type = currentSchool.getString("Org_Type");
+                        //output.append(org_type);
+                        if(Objects.equals(org_type,"Free Kindergarten")) {
+                            String latitude = currentSchool.getString("Latitude");
+                            String longitude = currentSchool.getString("Longitude");
+                            String orgName = currentSchool.getString("Org_Name");
+                            output.append(orgName + "," + latitude + "," + longitude + "," + '\n' + '\n');
+                        }
                     }
                     mTextMessage.setText(output.toString());
                 }   catch (JSONException e) {
