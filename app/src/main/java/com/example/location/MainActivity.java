@@ -56,6 +56,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                     }
 
                     return true;
+                case R.id.navigation_all:
+                    Intent apiIntent = new Intent();
+                    apiIntent.setClass(MainActivity.this, ThirdActivity.class);
+
+                    if (apiIntent.resolveActivity(getPackageManager()) != null) {
+                        startActivity(apiIntent);
+                    }
             }
             return false;
         }
