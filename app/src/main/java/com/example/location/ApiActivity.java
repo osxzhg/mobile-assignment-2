@@ -33,47 +33,12 @@ public class ApiActivity extends AppCompatActivity {
     public static final String RESULT = "RESULT";
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
 
-
-
-        Log.e("test","onActivityResult");
-    }
-
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    // ...
-                finish();
-                return true;
-                case R.id.navigation_map:
-
-                Intent mesg = new Intent();
-                mesg.setClass(ApiActivity.this,AllActivity.class);
-
-                mesg.putExtra(PAYLOAD, output.toString());
-
-                if (mesg.resolveActivity(getPackageManager()) != null) {
-                    startActivity(mesg);
-                }
-
-                return true;
-            }
-            return false;
-        }
-    };
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_api);
         mTextMessage = (TextView) findViewById(R.id.apimsg);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         String url ="https://catalogue.data.govt.nz/api/3/action/datastore_search?resource_id=26f44973-b06d-479d-b697-8d7943c97c57";
         //String url ="https://catalogue.data.govt.nz/api/3/action/datastore_search?resource_id=26f44973-b06d-479d-b697-8d7943c97c57&limit=2";

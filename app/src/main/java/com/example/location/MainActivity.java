@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                     // ...
 
                     return true;
-                case R.id.navigation_dashboard:
+                case R.id.navigation_api:
                     Intent api = new Intent();
                     api.setClass(MainActivity.this,ApiActivity.class);
                     api.putExtra("longtitude", Double.toString(longtitude));
