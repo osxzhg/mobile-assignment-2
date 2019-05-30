@@ -4,6 +4,8 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -16,11 +18,20 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity implements LocationListener {
     private TextView textView;
     private LocationManager locationManager;
     private double longtitude;
     private double latitude;
+    private Geocoder geocoder;
+    private List<Address> addressList;
+    private TextView tvAddress;
+    private StringBuilder sb;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -74,6 +85,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         setContentView(R.layout.activity_main);
 
         textView = (TextView) findViewById(R.id.id_textview);
+        tvAddress = (TextView) findViewById(R.id.address_textview);
+
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -102,6 +115,28 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         longtitude = location.getLongitude();
         latitude = location.getLatitude();
         textView.setText("Longitude: " + longtitude + "\n" + "Latitude: " + latitude);
+        sb = new StringBuilder();
+        geocoder = new Geocoder(MainActivity.this);
+        addressList = new ArrayList<Address>();
+
+        try {
+            // 返回集合对象泛型address
+            addressList= geocoder.getFromLocation(latitude,longtitude,1);
+
+
+            if (addressList.size() > 0) {
+                Address address = addressList.get(0);
+                for (int i = 0; i < address.getMaxAddressLineIndex(); i++) {
+                    Log.e("add",address.getAddressLine(i));
+                    sb.append(address.getAddressLine(i)).append("\n");
+                }
+                sb.append(address.getFeatureName());//周边地址
+            }
+            tvAddress.setText(sb.toString());
+            ;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

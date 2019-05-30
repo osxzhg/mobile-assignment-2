@@ -3,6 +3,7 @@ package com.example.location;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,12 +61,15 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder>
                 Toast.makeText(applicationContext,name[position],Toast.LENGTH_LONG).show();
             }
         });
-
+/*
         holder.textView.setText(name[position]);
 
         holder.textViewColour.setBackgroundColor(
                 Color.parseColor(name[position])
-        );
+        ); */
+        holder.textView.setText(name[position]);
+        holder.textViewColour.setText(telephone[position]);
+        Log.e("tele",telephone[position]);
     }
 
     // Return the size of your dataset (invoked by the layout manager)
