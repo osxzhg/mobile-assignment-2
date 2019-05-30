@@ -11,6 +11,7 @@ public class ThirdActivity extends AppCompatActivity {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,8 +26,12 @@ public class ThirdActivity extends AppCompatActivity {
         // assign the layout manager to the view
         mRecyclerView.setLayoutManager(mLayoutManager);
 
+        String[] output = new String[2];
         // specify an adapter (see also next example)
-        mAdapter = new DataAdapter(getApplicationContext(),new String[]{"black","darkgray", "gray","lightgray","white", "red", "green", "blue", "yellow", "cyan", "magenta", "aqua", "fuchsia","darkgrey", "grey", "lightgrey", "lime", "maroon", "navy", "olive", "purple", "silver", "teal"},new String[]{"black","darkgray", "gray","lightgray","white", "red", "green", "blue", "yellow", "cyan", "magenta", "aqua", "fuchsia","darkgrey", "grey", "lightgrey", "lime", "maroon", "navy", "olive", "purple", "silver", "teal"});
+        output[0]="black";
+        output[1]="gray";
+        //mAdapter = new DataAdapter(getApplicationContext(),new String[]{"black","darkgray", "gray","lightgray","white", "red", "green", "blue", "yellow", "cyan", "magenta", "aqua", "fuchsia","darkgrey", "grey", "lightgrey", "lime", "maroon", "navy", "olive", "purple", "silver", "teal"},new String[]{"black","darkgray", "gray","lightgray","white", "red", "green", "blue", "yellow", "cyan", "magenta", "aqua", "fuchsia","darkgrey", "grey", "lightgrey", "lime", "maroon", "navy", "olive", "purple", "silver", "teal"});
+        mAdapter = new DataAdapter(getApplicationContext(),output,new String[]{"black","gray"});
         mRecyclerView.setAdapter(mAdapter);
     }
 }
