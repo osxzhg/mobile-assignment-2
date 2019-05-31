@@ -38,6 +38,20 @@ public class ThirdActivity extends AppCompatActivity {
     ArrayList<String> output_latitude = new ArrayList<String>();
     ArrayList<String> output_longitude = new ArrayList<String>();
 
+    private static final  double EARTH_RADIUS = 6378137;//
+    private static double rad(double d){
+        return d * Math.PI / 180.0;
+    }
+    public static double GetDistance(double lon1,double lat1,double lon2, double lat2) {
+        double radLat1 = rad(lat1);
+        double radLat2 = rad(lat2);
+        double a = radLat1 - radLat2;
+        double b = rad(lon1) - rad(lon2);
+        double s = 2 *Math.asin(Math.sqrt(Math.pow(Math.sin(a/2),2)+Math.cos(radLat1)*Math.cos(radLat2)*Math.pow(Math.sin(b/2),2)));
+        s = s * EARTH_RADIUS;
+        return s;
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,16 +99,27 @@ public class ThirdActivity extends AppCompatActivity {
                         }*/
 
                         String cityName = currentSchool.getString("Education_Region");
+                        String latitude = currentSchool.getString("Latitude");
+                        String longitude = currentSchool.getString("Longitude");
                         if(Objects.equals(cityName,city_str)){
                             //Total Authority
-                            String latitude = currentSchool.getString("Latitude");
-                            String longitude = currentSchool.getString("Longitude");
-                            String orgName = currentSchool.getString("Org_Name");
-                            String telephone = currentSchool.getString("Telephone");
-                            output_latitude.add(latitude);
-                            output_longitude.add(longitude);
-                            output_name.add(orgName);
-                            output_tele.add(telephone);
+                            if(GetDistance( Double.parseDouble(longitude_str),
+                                            Double.parseDouble(latitude_str),
+                                            Double.parseDouble(longitude),
+                                            Double.parseDouble(latitude))<10000){
+                                String orgName = currentSchool.getString("Org_Name");
+                                String telephone = currentSchool.getString("Telephone");
+                                output_latitude.add(latitude);
+                                output_longitude.add(longitude);
+                                output_name.add(orgName);
+                                output_tele.add(telephone);
+                            }
+
+
+
+
+
+
                         }
 
 

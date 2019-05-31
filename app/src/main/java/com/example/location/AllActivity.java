@@ -65,7 +65,7 @@ public class AllActivity extends FragmentActivity implements OnMapReadyCallback 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        float zoom = 12.0f;
+        float zoom = 11.0f;
         LatLng  location_c=new LatLng(137,130);
 
         // Add a marker in Sydney and move the camera
