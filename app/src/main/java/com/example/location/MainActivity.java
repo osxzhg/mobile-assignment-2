@@ -113,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     @Override
     public void onLocationChanged(Location location) {
+        Log.e("debug","onlocation");
         longitude = location.getLongitude();
         latitude = location.getLatitude();
         textView.setText("Longitude: " + longitude + "\n" + "Latitude: " + latitude);
