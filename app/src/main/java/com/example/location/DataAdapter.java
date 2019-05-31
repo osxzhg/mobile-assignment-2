@@ -1,6 +1,8 @@
 package com.example.location;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,6 +16,12 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder>
 {
     String[] name;
     String[] telephone;
+    String[] latitude;
+    String[] longitude;
+    String home_latitude;
+    String home_longitude;
+
+
     String[] address;
     Context applicationContext;
 
@@ -31,11 +39,15 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder>
         }
     }
 
-    public DataAdapter(Context applicationContext, String[] data, String[] telephone)
+    public DataAdapter(Context applicationContext, String[] data, String[] telephone, String[] latitude, String[] longitude, String home_latitude, String home_longitude)
     {
         this.applicationContext = applicationContext;
         this.name = data;
         this.telephone = telephone;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.home_latitude= home_latitude;
+        this.home_longitude=home_longitude;
 
     }
 
@@ -59,6 +71,16 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder>
             @Override
             public void onClick(View view) {
                 Toast.makeText(applicationContext,name[position],Toast.LENGTH_LONG).show();
+
+                Intent call_all = new Intent(applicationContext,AllActivity.class);
+                call_all.putExtra("latitude",latitude[position]);
+                call_all.putExtra("longitude",longitude[position]);
+                call_all.putExtra("home_latitude",home_latitude);
+                call_all.putExtra("home_longitude",home_longitude);
+                call_all.putExtra("name",name[position]);
+                applicationContext.startActivity(call_all);
+
+
             }
         });
 /*

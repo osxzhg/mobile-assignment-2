@@ -1,15 +1,19 @@
 package com.example.location;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -17,7 +21,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class AllActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    String [] arr;
+    //String [] arr;
+    private String longitude_str;
+    private String latitude_str;
+    private String home_longitude;
+    private String home_latitude;
+    private  String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,13 +36,18 @@ public class AllActivity extends FragmentActivity implements OnMapReadyCallback 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
         Bundle extras = getIntent().getExtras();
-        String content = extras.getString(ApiActivity.PAYLOAD);
-        arr = content.split(",");
+        longitude_str =extras.getString("longitude");
+        latitude_str = extras.getString("latitude");
+        home_latitude = extras.getString("home_latitude");
+        home_longitude = extras.getString("home_longitude");
+        name = extras.getString("name");
+        //arr = content.split(",");
         /*for(String ss : arr){
             System.out.println(ss);
         }*/
-        Log.e("my", arr[0]);
+        //Log.e("my", arr[0]);
 
 
     }
@@ -51,17 +65,23 @@ public class AllActivity extends FragmentActivity implements OnMapReadyCallback 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        float zoom = 12.0f;
         LatLng  location_c=new LatLng(137,130);
 
         // Add a marker in Sydney and move the camera
-        int i;
-        int count=arr.length/3;
-        for(i=0;i<count;i++) {
-            location_c = new LatLng(Double.parseDouble(arr[1 + i*3]), Double.parseDouble(arr[2 + i*3]));
-            mMap.addMarker(new MarkerOptions().position(location_c).title(arr[i*3]));
-        }
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(location_c));
 
+        location_c = new LatLng(Double.parseDouble(latitude_str), Double.parseDouble(longitude_str));
+        mMap.addMarker(new MarkerOptions().position(location_c).title(name));
+        location_c = new LatLng(-36.8749844,174.7466741);
+        mMap.addMarker(new MarkerOptions().position(location_c).title("now"));
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(location_c));
+        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(location_c, zoom);
+        mMap.moveCamera(update);
+        Circle circle = mMap.addCircle(new CircleOptions()
+                .center(location_c)
+                .radius(5000)
+                .strokeColor(Color.RED));
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {

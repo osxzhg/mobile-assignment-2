@@ -26,12 +26,13 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity implements LocationListener {
     private TextView textView;
     private LocationManager locationManager;
-    private double longtitude;
+    private double longitude;
     private double latitude;
     private Geocoder geocoder;
     private List<Address> addressList;
     private TextView tvAddress;
     private StringBuilder sb;
+    private String cityName = "";
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -39,15 +40,12 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    // ...
 
-                    return true;
                 case R.id.navigation_api:
                     Intent api = new Intent();
                     api.setClass(MainActivity.this,ApiActivity.class);
-                    api.putExtra("longtitude", Double.toString(longtitude));
-                    api.putExtra("latitude",Double.toString(latitude));
+                    //api.putExtra("longitude", Double.toString(longitude));
+                    //api.putExtra("latitude",Double.toString(latitude));
 
                     if (api.resolveActivity(getPackageManager()) != null) {
                         startActivity(api);
@@ -57,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 case R.id.navigation_map:
                     Intent mesg = new Intent();
                     mesg.setClass(MainActivity.this,MapsActivity.class);
-                    mesg.putExtra("longtitude", Double.toString(longtitude));
+                    mesg.putExtra("longitude", Double.toString(longitude));
                     mesg.putExtra("latitude",Double.toString(latitude));
 
 
@@ -70,6 +68,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 case R.id.navigation_all:
                     Intent apiIntent = new Intent();
                     apiIntent.setClass(MainActivity.this, ThirdActivity.class);
+                    apiIntent.putExtra("longitude", Double.toString(longitude));
+                    apiIntent.putExtra("latitude",Double.toString(latitude));
+                    apiIntent.putExtra("cityName",cityName);
 
                     if (apiIntent.resolveActivity(getPackageManager()) != null) {
                         startActivity(apiIntent);
@@ -112,27 +113,28 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     @Override
     public void onLocationChanged(Location location) {
-        longtitude = location.getLongitude();
+        longitude = location.getLongitude();
         latitude = location.getLatitude();
-        textView.setText("Longitude: " + longtitude + "\n" + "Latitude: " + latitude);
+        textView.setText("Longitude: " + longitude + "\n" + "Latitude: " + latitude);
         sb = new StringBuilder();
-        geocoder = new Geocoder(MainActivity.this);
+        geocoder = new Geocoder(MainActivity.this,Locale.getDefault());
         addressList = new ArrayList<Address>();
 
+
         try {
-            // 返回集合对象泛型address
-            addressList= geocoder.getFromLocation(latitude,longtitude,1);
+            // return address
+            addressList= geocoder.getFromLocation(latitude,longitude,10);
 
 
             if (addressList.size() > 0) {
-                Address address = addressList.get(0);
-                for (int i = 0; i < address.getMaxAddressLineIndex(); i++) {
-                    Log.e("add",address.getAddressLine(i));
-                    sb.append(address.getAddressLine(i)).append("\n");
+                for(Address adr:addressList){
+                    if(adr.getLocality() != null && adr.getLocality().length() > 0){
+                        cityName = adr.getLocality();
+                    }
                 }
-                sb.append(address.getFeatureName());//周边地址
+
             }
-            tvAddress.setText(sb.toString());
+            tvAddress.setText(cityName);
             ;
         } catch (IOException e) {
             e.printStackTrace();
