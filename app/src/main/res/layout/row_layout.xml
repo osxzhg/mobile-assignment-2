@@ -18,10 +18,23 @@
         android:layout_weight="1" />
 
     <TextView
-        android:id="@+id/textViewColour"
+        android:id="@+id/textView_Aut"
         android:layout_width="match_parent"
         android:layout_height="41dp"
         android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/textView_Stu"
+        android:layout_width="match_parent"
+        android:layout_height="41dp"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/textView_Tel"
+        android:layout_width="match_parent"
+        android:layout_height="41dp"
+        android:layout_weight="1" />
+
 
 
 

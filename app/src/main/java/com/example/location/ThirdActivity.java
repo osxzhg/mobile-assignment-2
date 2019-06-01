@@ -37,6 +37,8 @@ public class ThirdActivity extends AppCompatActivity {
     ArrayList<String> output_tele = new ArrayList<String>();
     ArrayList<String> output_latitude = new ArrayList<String>();
     ArrayList<String> output_longitude = new ArrayList<String>();
+    ArrayList<String> output_authority = new ArrayList<String>();
+    ArrayList<String> output_students = new ArrayList<String>();
 
     private static final  double EARTH_RADIUS = 6378137;//
     private static double rad(double d){
@@ -109,10 +111,14 @@ public class ThirdActivity extends AppCompatActivity {
                                             Double.parseDouble(latitude))<10000){
                                 String orgName = currentSchool.getString("Org_Name");
                                 String telephone = currentSchool.getString("Telephone");
+                                String authority = currentSchool.getString("Authority");
+                                String students = currentSchool.getString("All_Children");
                                 output_latitude.add(latitude);
                                 output_longitude.add(longitude);
                                 output_name.add(orgName);
                                 output_tele.add(telephone);
+                                output_authority.add(authority);
+                                output_students.add(students);
                             }
 
 
@@ -133,10 +139,12 @@ public class ThirdActivity extends AppCompatActivity {
                     String[] tele = output_tele.toArray(new String[0]);
                     String[] latitude = output_latitude.toArray(new String[0]);
                     String[] longitude = output_longitude.toArray(new String[0]);
+                    String[] authority = output_authority.toArray(new String[0]);
+                    String[] students = output_students.toArray(new String[0]);
                     // specify an adapter (see also next example)
 
                     //mAdapter = new DataAdapter(getApplicationContext(),new String[]{"black","darkgray", "gray","lightgray","white", "red", "green", "blue", "yellow", "cyan", "magenta", "aqua", "fuchsia","darkgrey", "grey", "lightgrey", "lime", "maroon", "navy", "olive", "purple", "silver", "teal"},new String[]{"black","darkgray", "gray","lightgray","white", "red", "green", "blue", "yellow", "cyan", "magenta", "aqua", "fuchsia","darkgrey", "grey", "lightgrey", "lime", "maroon", "navy", "olive", "purple", "silver", "teal"});
-                    mAdapter = new DataAdapter(getApplicationContext(),name,tele,latitude,longitude,longitude_str,latitude_str);
+                    mAdapter = new DataAdapter(getApplicationContext(),name,tele,latitude,longitude,latitude_str,longitude_str,authority,students);
                     mRecyclerView.setAdapter(mAdapter);
                 }   catch (JSONException e) {
                     e.printStackTrace();

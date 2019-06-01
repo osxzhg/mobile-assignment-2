@@ -20,6 +20,8 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder>
     String[] longitude;
     String home_latitude;
     String home_longitude;
+    String[] authority;
+    String[] students;
 
 
     String[] address;
@@ -29,17 +31,21 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder>
         // each data item is just a string in this case
         public View layout;
         public TextView textView;
-        public TextView textViewColour;
+        public TextView textView_Aut;
+        public TextView textView_Stu;
+        public TextView textView_Tel;
         public ViewHolder(View layout) {
             super(layout);
             this.layout = layout;
 
             textView = layout.findViewById(R.id.textView);
-            textViewColour = layout.findViewById(R.id.textViewColour);
+            textView_Aut = layout.findViewById(R.id.textView_Aut);
+            textView_Stu = layout.findViewById(R.id.textView_Stu);
+            textView_Tel = layout.findViewById(R.id.textView_Tel);
         }
     }
 
-    public DataAdapter(Context applicationContext, String[] data, String[] telephone, String[] latitude, String[] longitude, String home_latitude, String home_longitude)
+    public DataAdapter(Context applicationContext, String[] data, String[] telephone, String[] latitude, String[] longitude, String home_latitude, String home_longitude, String[] authority, String[] students)
     {
         this.applicationContext = applicationContext;
         this.name = data;
@@ -48,6 +54,8 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder>
         this.longitude = longitude;
         this.home_latitude= home_latitude;
         this.home_longitude=home_longitude;
+        this.authority=authority;
+        this.students=students;
 
     }
 
@@ -90,8 +98,10 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder>
                 Color.parseColor(name[position])
         ); */
         holder.textView.setText(name[position]);
-        holder.textViewColour.setText(telephone[position]);
-        Log.e("tele",telephone[position]);
+        holder.textView_Tel.setText(telephone[position]);
+        holder.textView_Stu.setText(students[position]);
+        holder.textView_Aut.setText(authority[position]);
+        //Log.e("tele",telephone[position]);
     }
 
     // Return the size of your dataset (invoked by the layout manager)

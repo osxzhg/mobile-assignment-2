@@ -72,7 +72,7 @@ public class AllActivity extends FragmentActivity implements OnMapReadyCallback 
 
         location_c = new LatLng(Double.parseDouble(latitude_str), Double.parseDouble(longitude_str));
         mMap.addMarker(new MarkerOptions().position(location_c).title(name));
-        location_c = new LatLng(-36.8749844,174.7466741);
+        location_c = new LatLng(Double.parseDouble(home_latitude),Double.parseDouble(home_longitude));
         mMap.addMarker(new MarkerOptions().position(location_c).title("now"));
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(location_c));
