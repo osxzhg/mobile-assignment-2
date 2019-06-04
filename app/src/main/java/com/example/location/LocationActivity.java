@@ -99,7 +99,7 @@ public class LocationActivity extends AppCompatActivity {
         final TextView txtLatitude = (TextView)findViewById(R.id.txtLatitude);
         final TextView txtLongitude = (TextView)findViewById(R.id.txtLongitude);
 
-        final Button btnGetLocation = (Button) findViewById(R.id.btnLocation);
+
 
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);

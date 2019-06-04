@@ -109,7 +109,7 @@ public class ThirdActivity extends AppCompatActivity {
                             if(GetDistance( Double.parseDouble(longitude_str),
                                             Double.parseDouble(latitude_str),
                                             Double.parseDouble(longitude),
-                                            Double.parseDouble(latitude))<1000000){
+                                            Double.parseDouble(latitude))>0){
                                 String orgName = currentSchool.getString("Org_Name");
                                 String telephone = currentSchool.getString("Telephone");
                                 String authority = currentSchool.getString("Authority");
