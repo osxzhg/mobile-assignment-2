@@ -1,6 +1,7 @@
 package com.example.location;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -16,6 +17,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -93,6 +96,19 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+        final Button btnGetLocation = (Button) findViewById(R.id.button);
+        btnGetLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent locIntent = new Intent();
+                locIntent.setClass(MainActivity.this, LocationActivity.class);
+
+
+                if (locIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(locIntent);
+                }
+            }
+        });
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED &&
@@ -108,7 +124,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             return;
         }
         Location location = locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER);
-        onLocationChanged(location);
+        if(location!=null) {
+            onLocationChanged(location);
+        }
     }
 
     @Override

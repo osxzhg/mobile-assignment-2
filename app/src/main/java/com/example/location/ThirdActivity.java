@@ -66,7 +66,7 @@ public class ThirdActivity extends AppCompatActivity {
         city_str = extras.getString("cityName");
 
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        String url ="https://catalogue.data.govt.nz/api/3/action/datastore_search?resource_id=26f44973-b06d-479d-b697-8d7943c97c57";
+        String url ="https://catalogue.data.govt.nz//api/3/action/datastore_search?resource_id=26f44973-b06d-479d-b697-8d7943c97c57";
         //String url ="https://catalogue.data.govt.nz/api/3/action/datastore_search?resource_id=26f44973-b06d-479d-b697-8d7943c97c57&limit=2";
 
 
