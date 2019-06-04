@@ -4,6 +4,8 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -26,6 +28,10 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 
 public class LocationActivity extends AppCompatActivity {
@@ -35,6 +41,10 @@ public class LocationActivity extends AppCompatActivity {
     private int flag=0;
     private double longitude;
     private double latitude;
+    private Geocoder geocoder;
+    private List<Address> addressList;
+    private String cityName = "";
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -71,7 +81,7 @@ public class LocationActivity extends AppCompatActivity {
                     apiIntent.setClass(LocationActivity.this, ThirdActivity.class);
                     apiIntent.putExtra("longitude", Double.toString(longitude));
                     apiIntent.putExtra("latitude",Double.toString(latitude));
-                    apiIntent.putExtra("cityName","Auckland");
+                    apiIntent.putExtra("cityName",cityName);
 
                     if (apiIntent.resolveActivity(getPackageManager()) != null) {
                         startActivity(apiIntent);
@@ -113,6 +123,28 @@ public class LocationActivity extends AppCompatActivity {
                             latitude=task.getResult().getLatitude();
                             longitude=task.getResult().getLongitude();
                             System.err.println(task.getResult().getLatitude());
+                            geocoder = new Geocoder(LocationActivity.this, Locale.getDefault());
+                            addressList = new ArrayList<Address>();
+
+
+                            try {
+                                // return address
+                                addressList= geocoder.getFromLocation(latitude,longitude,10);
+
+
+                                if (addressList.size() > 0) {
+                                    for(Address adr:addressList){
+                                        if(adr.getLocality() != null && adr.getLocality().length() > 0){
+                                            cityName = adr.getLocality();
+                                            Log.e("location:",cityName);
+                                        }
+                                    }
+
+                                }
+
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
                     });
                 }

@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
             }
             tvAddress.setText(cityName);
-            ;
+
         } catch (IOException e) {
             e.printStackTrace();
         }
