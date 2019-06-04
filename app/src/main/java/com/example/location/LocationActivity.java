@@ -1,14 +1,18 @@
 package com.example.location;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -29,6 +33,53 @@ public class LocationActivity extends AppCompatActivity {
     private LocationCallback locationCallback;
     private FusedLocationProviderClient fusedLocationClient;
     private int flag=0;
+    private double longitude;
+    private double latitude;
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+
+                case R.id.navigation_api:
+                    Intent api = new Intent();
+                    api.setClass(LocationActivity.this,ApiActivity.class);
+                    //api.putExtra("longitude", Double.toString(longitude));
+                    //api.putExtra("latitude",Double.toString(latitude));
+
+                    if (api.resolveActivity(getPackageManager()) != null) {
+                        startActivity(api);
+                    }
+
+                    return true;
+                case R.id.navigation_map:
+                    Intent mesg = new Intent();
+                    mesg.setClass(LocationActivity.this,MapsActivity.class);
+                    mesg.putExtra("longitude", Double.toString(longitude));
+                    mesg.putExtra("latitude",Double.toString(latitude));
+
+
+
+                    if (mesg.resolveActivity(getPackageManager()) != null) {
+                        startActivity(mesg);
+                    }
+
+                    return true;
+                case R.id.navigation_all:
+                    Intent apiIntent = new Intent();
+                    apiIntent.setClass(LocationActivity.this, ThirdActivity.class);
+                    apiIntent.putExtra("longitude", Double.toString(longitude));
+                    apiIntent.putExtra("latitude",Double.toString(latitude));
+                    apiIntent.putExtra("cityName","Auckland");
+
+                    if (apiIntent.resolveActivity(getPackageManager()) != null) {
+                        startActivity(apiIntent);
+                    }
+            }
+            return false;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +91,14 @@ public class LocationActivity extends AppCompatActivity {
 
         final Button btnGetLocation = (Button) findViewById(R.id.btnLocation);
 
+
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
         //final FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-        //btnGetLocation.setOnClickListener(new View.OnClickListener() {
 
-         //   public void onClick(View view) {
                 try {
                     Task<Location> location = fusedLocationClient.getLastLocation();
 
@@ -57,6 +110,8 @@ public class LocationActivity extends AppCompatActivity {
 
                             txtLatitude.setText(Double.toString(task.getResult().getLatitude()));
                             txtLongitude.setText(Double.toString(task.getResult().getLongitude()));
+                            latitude=task.getResult().getLatitude();
+                            longitude=task.getResult().getLongitude();
                             System.err.println(task.getResult().getLatitude());
                         }
                     });
@@ -65,8 +120,7 @@ public class LocationActivity extends AppCompatActivity {
                 {
                     ex.printStackTrace();
                 }
-         //   }
-        //});
+
 
 
 
