@@ -103,12 +103,13 @@ public class ThirdActivity extends AppCompatActivity {
                         String cityName = currentSchool.getString("Education_Region");
                         String latitude = currentSchool.getString("Latitude");
                         String longitude = currentSchool.getString("Longitude");
-                        if(Objects.equals(cityName,city_str)){
+                        //Objects.equals(cityName,city_str);
+                        if(true){
                             //Total Authority
                             if(GetDistance( Double.parseDouble(longitude_str),
                                             Double.parseDouble(latitude_str),
                                             Double.parseDouble(longitude),
-                                            Double.parseDouble(latitude))<10000){
+                                            Double.parseDouble(latitude))<1000000){
                                 String orgName = currentSchool.getString("Org_Name");
                                 String telephone = currentSchool.getString("Telephone");
                                 String authority = currentSchool.getString("Authority");

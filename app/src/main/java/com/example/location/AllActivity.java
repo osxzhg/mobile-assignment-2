@@ -65,7 +65,7 @@ public class AllActivity extends FragmentActivity implements OnMapReadyCallback 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        float zoom = 11.0f;
+        float zoom = 7.0f;
         LatLng  location_c=new LatLng(137,130);
 
         // Add a marker in Sydney and move the camera
@@ -85,7 +85,7 @@ public class AllActivity extends FragmentActivity implements OnMapReadyCallback 
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                Toast.makeText(AllActivity.this,"标记被点击了，这里的纬度是:"+marker.getPosition().latitude+"",Toast.LENGTH_SHORT).show();
+                Toast.makeText(AllActivity.this,"The location is :"+marker.getPosition().latitude+"",Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
